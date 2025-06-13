@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>お問い合わせ - 有限会社Rispondere</title>
+    <title>求人応募 - 有限会社Rispondere</title>
     <style>
         * {
             margin: 0;
@@ -411,8 +411,8 @@
 
     <div class="container">
         <!-- ページタイトル -->
-        <h1 class="page-title fade-in">お問い合わせ</h1>
-        <p class="page-subtitle fade-in">お気軽にご相談ください。WEBデザイン・広告制作のご依頼や求人に関するお問い合わせもお待ちしております。</p>
+        <h1 class="page-title fade-in">求人応募</h1>
+        <p class="page-subtitle fade-in">クリエイティブな仕事に挑戦したい方、私たちと一緒に働きませんか？ご応募をお待ちしております。</p>
 
         <!-- 連絡先情報 -->
         <div class="contact-grid">
@@ -435,12 +435,12 @@
                     </div>
                 </div>
                 <p style="color: #666; font-size: 0.9rem;">
-                    お急ぎの案件やご質問がございましたら、まずはお電話でご連絡ください。
+                    求人に関するご質問やご相談がございましたら、まずはお電話でお気軽にご連絡ください。
                 </p>
             </div>
 
             <div class="contact-card fade-in">
-                <h2>✉️ メールでのお問い合わせ</h2>
+                <h2>✉️ メールでのご応募</h2>
                 <div class="contact-info">
                     <div class="contact-item">
                         <div class="contact-icon">📧</div>
@@ -458,24 +458,24 @@
                     </div>
                 </div>
                 <p style="color: #666; font-size: 0.9rem;">
-                    詳細な資料添付や求人応募の際は、メールでのご連絡をお勧めします。
+                    履歴書・職務経歴書の添付やポートフォリオの送付は、メールでのご応募をお勧めします。
                 </p>
             </div>
         </div>
 
         <!-- 求人情報セクション -->
         <div class="recruitment-section fade-in">
-            <h2>🌟 求人募集中</h2>
-            <p>クリエイティブな仕事に挑戦したい方、私たちと一緒に働きませんか？<br>
-            WEBデザイン・動画編集・写真撮影など、様々なスキルを活かせる環境をご用意しています。</p>
+            <h2>🌟 募集要項</h2>
+            <p>WEBデザイン・動画編集・写真撮影など、様々なスキルを活かせる環境をご用意しています。<br>
+            経験者はもちろん、やる気のある未経験者も歓迎いたします。</p>
             <a href="mailto:rispondere6969@gmail.com?subject=求人応募について" class="recruitment-btn">
-                求人応募・詳細問い合わせ
+                今すぐ応募する
             </a>
         </div>
 
-        <!-- お問い合わせフォーム -->
+        <!-- 応募フォーム -->
         <div class="form-section fade-in">
-            <h2>📝 お問い合わせフォーム</h2>
+            <h2>📝 応募フォーム</h2>
             <form id="contactForm">
                 <div class="form-grid">
                     <div class="form-group">
@@ -483,8 +483,8 @@
                         <input type="text" id="name" name="name" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="company">会社名</label>
-                        <input type="text" id="company" name="company" class="form-control">
+                        <label for="age">年齢</label>
+                        <input type="number" id="age" name="age" class="form-control" min="18" max="99">
                     </div>
                 </div>
                 
@@ -494,43 +494,35 @@
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="phone">電話番号</label>
-                        <input type="tel" id="phone" name="phone" class="form-control">
+                        <label for="phone">電話番号 *</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="inquiry-type">お問い合わせ種別 *</label>
-                    <select id="inquiry-type" name="inquiry-type" class="form-control" required>
+                    <label for="experience">経験・スキル *</label>
+                    <select id="experience" name="experience" class="form-control" required>
                         <option value="">選択してください</option>
-                        <option value="web-design">WEBデザイン依頼</option>
-                        <option value="photography">撮影依頼</option>
-                        <option value="video-editing">動画編集依頼</option>
-                        <option value="banner-design">バナー制作依頼</option>
-                        <option value="recruitment">求人応募</option>
-                        <option value="general">その他のお問い合わせ</option>
+                        <option value="web-design">WEBデザイン経験あり</option>
+                        <option value="video-editing">動画編集経験あり</option>
+                        <option value="photography">写真撮影経験あり</option>
+                        <option value="banner-design">バナー制作経験あり</option>
+                        <option value="multiple">複数スキル保有</option>
+                        <option value="beginner">未経験だが学習意欲あり</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="budget">ご予算（任意）</label>
-                    <select id="budget" name="budget" class="form-control">
-                        <option value="">選択してください</option>
-                        <option value="under-50k">5万円未満</option>
-                        <option value="50k-100k">5万円〜10万円</option>
-                        <option value="100k-300k">10万円〜30万円</option>
-                        <option value="300k-500k">30万円〜50万円</option>
-                        <option value="over-500k">50万円以上</option>
-                        <option value="consultation">要相談</option>
-                    </select>
+                    <label for="message">志望動機・自己PR *</label>
+                    <textarea id="message" name="message" class="form-control" rows="6" placeholder="志望動機や保有スキル、これまでの経験などをお書きください..." required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="message">お問い合わせ内容 *</label>
-                    <textarea id="message" name="message" class="form-control" rows="6" placeholder="具体的なご要望や質問内容をお書きください..." required></textarea>
+                    <label for="portfolio">ポートフォリオURL（任意）</label>
+                    <input type="url" id="portfolio" name="portfolio" class="form-control" placeholder="https://...">
                 </div>
 
-                <button type="submit" class="submit-btn">送信する</button>
+                <button type="submit" class="submit-btn">応募する</button>
             </form>
         </div>
 
@@ -548,19 +540,36 @@
                     地下鉄東山線「新栄町駅」より徒歩5分</p>
                 </div>
                 <div class="info-card">
-                    <h3>🕐 営業時間</h3>
+                    <h3>🌟 求める人材</h3>
                     <ul>
-                        <li>平日：9:00 - 18:00</li>
-                        <li>土曜：10:00 - 17:00（予約制）</li>
-                        <li>日曜・祝日：休業</li>
+                        <li>クリエイティブな仕事への情熱</li>
+                        <li>向上心と学習意欲</li>
+                        <li>チームワークを大切にできる方</li>
+                        <li>責任感のある方</li>
                     </ul>
                     <br>
-                    <p><strong>対応可能業務：</strong></p>
+                    <p><strong>歓迎スキル：</strong></p>
                     <ul>
-                        <li>WEBサイト制作・デザイン</li>
-                        <li>広告バナー制作</li>
-                        <li>動画制作・編集</li>
-                        <li>写真撮影・レタッチ</li>
+                        <li>Photoshop、Illustrator</li>
+                        <li>HTML/CSS、JavaScript</li>
+                        <li>動画編集ソフト（Premiere等）</li>
+                        <li>カメラ撮影技術</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>💼 働き方・待遇</h3>
+                    <ul>
+                        <li>勤務時間：9:00 - 18:00</li>
+                        <li>完全週休2日制（土日休み）</li>
+                        <li>各種社会保険完備</li>
+                        <li>スキルアップ支援制度</li>
+                    </ul>
+                    <br>
+                    <p><strong>応募について：</strong></p>
+                    <ul>
+                        <li>履歴書・職務経歴書をご準備ください</li>
+                        <li>ポートフォリオがあれば一緒にお送りください</li>
+                        <li>まずはお気軽にご相談ください</li>
                     </ul>
                 </div>
             </div>
@@ -616,7 +625,7 @@ ${data.message}
             window.location.href = mailtoLink;
             
             // 成功メッセージを表示
-            alert('メールクライアントが開きます。内容をご確認の上、送信してください。');
+            alert('メールクライアントが開きます。応募内容をご確認の上、履歴書・ポートフォリオを添付して送信してください。');
         });
 
         // 電話番号クリック時の処理
