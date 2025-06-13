@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ - 有限会社Rispondere</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* ヘッダー */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* メインコンテンツ */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .contact-card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            color: #333;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-details p {
+            color: #666;
+            margin: 0;
+        }
+
+        .contact-details a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: #764ba2;
+        }
+
+        /* お問い合わせフォーム */
+        .form-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: block;
+            margin: 2rem auto 0;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        /* 営業時間・アクセス情報 */
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .info-card {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* 求人情報セクション */
+        .recruitment-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .recruitment-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .recruitment-section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .recruitment-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+        }
+
+        .recruitment-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .contact-grid,
+            .form-grid,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .contact-card,
+            .form-section,
+            .info-section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* アニメーション */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" style="color: inherit; text-decoration: none;">Rispondere</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">ホーム</a></li>
+                <li><a href="index.html#services">サービス</a></li>
+                <li><a href="index.html#portfolio">制作実績</a></li>
+                <li><a href="index.html#company">会社情報</a></li>
+                <li><a href="contact.html">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- ページタイトル -->
+        <h1 class="page-title fade-in">お問い合わせ</h1>
+        <p class="page-subtitle fade-in">お気軽にご相談ください。WEBデザイン・広告制作のご依頼や求人に関するお問い合わせもお待ちしております。</p>
+
+        <!-- 連絡先情報 -->
+        <div class="contact-grid">
+            <div class="contact-card fade-in">
+                <h2>📞 お電話でのお問い合わせ</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>電話番号</h4>
+                            <p><a href="tel:052-253-5385">052-253-5385</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">⏰</div>
+                        <div class="contact-details">
+                            <h4>受付時間</h4>
+                            <p>平日 9:00-18:00</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="color: #666; font-size: 0.9rem;">
+                    お急ぎの案件やご質問がございましたら、まずはお電話でご連絡ください。
+                </p>
+            </div>
+
+            <div class="contact-card fade-in">
+                <h2>✉️ メールでのお問い合わせ</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>メールアドレス</h4>
+                            <p><a href="mailto:rispondere6969@gmail.com">rispondere6969@gmail.com</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div class="contact-details">
+                            <h4>返信時間</h4>
+                            <p>24時間以内にご返信</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="color: #666; font-size: 0.9rem;">
+                    詳細な資料添付や求人応募の際は、メールでのご連絡をお勧めします。
+                </p>
+            </div>
+        </div>
+
+        <!-- 求人情報セクション -->
+        <div class="recruitment-section fade-in">
+            <h2>🌟 求人募集中</h2>
+            <p>クリエイティブな仕事に挑戦したい方、私たちと一緒に働きませんか？<br>
+            WEBデザイン・動画編集・写真撮影など、様々なスキルを活かせる環境をご用意しています。</p>
+            <a href="mailto:rispondere6969@gmail.com?subject=求人応募について" class="recruitment-btn">
+                求人応募・詳細問い合わせ
+            </a>
+        </div>
+
+        <!-- お問い合わせフォーム -->
+        <div class="form-section fade-in">
+            <h2>📝 お問い合わせフォーム</h2>
+            <form id="contactForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">お名前 *</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">会社名</label>
+                        <input type="text" id="company" name="company" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="email">メールアドレス *</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">電話番号</label>
+                        <input type="tel" id="phone" name="phone" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inquiry-type">お問い合わせ種別 *</label>
+                    <select id="inquiry-type" name="inquiry-type" class="form-control" required>
+                        <option value="">選択してください</option>
+                        <option value="web-design">WEBデザイン依頼</option>
+                        <option value="photography">撮影依頼</option>
+                        <option value="video-editing">動画編集依頼</option>
+                        <option value="banner-design">バナー制作依頼</option>
+                        <option value="recruitment">求人応募</option>
+                        <option value="general">その他のお問い合わせ</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">ご予算（任意）</label>
+                    <select id="budget" name="budget" class="form-control">
+                        <option value="">選択してください</option>
+                        <option value="under-50k">5万円未満</option>
+                        <option value="50k-100k">5万円〜10万円</option>
+                        <option value="100k-300k">10万円〜30万円</option>
+                        <option value="300k-500k">30万円〜50万円</option>
+                        <option value="over-500k">50万円以上</option>
+                        <option value="consultation">要相談</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">お問い合わせ内容 *</label>
+                    <textarea id="message" name="message" class="form-control" rows="6" placeholder="具体的なご要望や質問内容をお書きください..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">送信する</button>
+            </form>
+        </div>
+
+        <!-- 営業時間・アクセス情報 -->
+        <div class="info-section fade-in">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📍 アクセス情報</h3>
+                    <p><strong>住所：</strong><br>
+                    〒460-0007<br>
+                    愛知県名古屋市中区新栄２丁目８番２２号</p>
+                    <br>
+                    <p><strong>最寄り駅：</strong><br>
+                    地下鉄東山線・名城線「栄駅」より徒歩8分<br>
+                    地下鉄東山線「新栄町駅」より徒歩5分</p>
+                </div>
+                <div class="info-card">
+                    <h3>🕐 営業時間</h3>
+                    <ul>
+                        <li>平日：9:00 - 18:00</li>
+                        <li>土曜：10:00 - 17:00（予約制）</li>
+                        <li>日曜・祝日：休業</li>
+                    </ul>
+                    <br>
+                    <p><strong>対応可能業務：</strong></p>
+                    <ul>
+                        <li>WEBサイト制作・デザイン</li>
+                        <li>広告バナー制作</li>
+                        <li>動画制作・編集</li>
+                        <li>写真撮影・レタッチ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // スクロールアニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // フォーム送信処理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // フォームデータを取得
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // メール本文を作成
+            const subject = `【${data['inquiry-type']}】お問い合わせ - ${data.name}様`;
+            const body = `
+お名前: ${data.name}
+会社名: ${data.company || '（個人）'}
+メールアドレス: ${data.email}
+電話番号: ${data.phone || '未記入'}
+お問い合わせ種別: ${data['inquiry-type']}
+ご予算: ${data.budget || '未選択'}
+
+お問い合わせ内容:
+${data.message}
+
+---
+このメールは公式サイトのお問い合わせフォームから送信されました。
+            `.trim();
+            
+            // メールクライアントを開く
+            const mailtoLink = `mailto:rispondere6969@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+            
+            // 成功メッセージを表示
+            alert('メールクライアントが開きます。内容をご確認の上、送信してください。');
+        });
+
+        // 電話番号クリック時の処理
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!confirm('電話をかけますか？\n052-253-5385')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
