@@ -61,6 +61,25 @@
             padding: 0 2rem;
         }
 
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
         .admin-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -181,6 +200,11 @@
             background: linear-gradient(135deg, #dc3545, #fd7e14);
         }
 
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: #212529;
+        }
+
         .btn-block {
             width: 100%;
             margin-top: 1rem;
@@ -206,25 +230,6 @@
             transform: translateY(-2px);
         }
 
-        .alert {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            border-color: #17a2b8;
-            color: #0c5460;
-        }
-
         .company-info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -240,6 +245,51 @@
             gap: 1rem;
             margin-top: 2rem;
             justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .export-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+            border-left: 4px solid #ffc107;
+        }
+
+        .export-section h2 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+        .export-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .export-steps li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .export-steps li::before {
+            content: '📝';
+            position: absolute;
+            left: 0;
+        }
+
+        .code-output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            white-space: pre-wrap;
         }
 
         @media (max-width: 768px) {
@@ -254,14 +304,6 @@
             .actions {
                 flex-direction: column;
             }
-        }
-
-        .preview-section {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-top: 2rem;
         }
 
         .status-indicator {
@@ -288,13 +330,17 @@
                 <span class="status-indicator status-saved" id="statusIndicator"></span>
                 Rispondere 管理画面
             </div>
-            <a href="https://rispondere.github.io/rispondere-website/" target="_blank" class="preview-btn" id="previewBtn">ホームページを開く</a>
+            <a href="https://rispondere.github.io/rispondere-website/" target="_blank" class="preview-btn">ホームページを開く</a>
         </div>
     </header>
 
     <div class="container">
+        <div class="alert alert-warning">
+            <strong>重要:</strong> 現在の管理画面は1台のパソコンでのみ動作します。他のパソコンで変更を反映するには、下記の「HTMLファイル生成」機能をご利用ください。
+        </div>
+
         <div class="alert alert-info">
-            <strong>使い方:</strong> 各項目を編集した後、「変更を保存」ボタンをクリックしてください。「ホームページを開く」ボタンで実際のサイトを確認できます。
+            <strong>使い方:</strong> 各項目を編集した後、「変更を保存」→「HTMLファイル生成」→GitHubにアップロードの順で作業してください。
         </div>
 
         <div class="admin-grid">
@@ -403,7 +449,23 @@
         <!-- アクションボタン -->
         <div class="actions">
             <button class="btn btn-success" id="saveBtn">💾 変更を保存</button>
+            <button class="btn btn-warning" id="generateBtn">📝 HTMLファイル生成</button>
             <button class="btn btn-danger" id="resetBtn">🔄 リセット</button>
+        </div>
+
+        <!-- HTMLファイル生成セクション -->
+        <div class="export-section" id="exportSection" style="display: none;">
+            <h2>📝 HTMLファイル生成</h2>
+            <p>以下のHTMLコードをコピーして、GitHubの<strong>index.html</strong>ファイルを更新してください：</p>
+            <ol class="export-steps">
+                <li>下記のHTMLコードをすべて選択してコピー</li>
+                <li>GitHubのリポジトリで「index.html」を開く</li>
+                <li>編集ボタン（鉛筆アイコン）をクリック</li>
+                <li>既存のコードを削除して、コピーしたコードを貼り付け</li>
+                <li>「Commit changes」をクリックして保存</li>
+            </ol>
+            <div class="code-output" id="htmlOutput"></div>
+            <button class="btn btn-success btn-block" id="copyBtn">📋 HTMLコードをコピー</button>
         </div>
     </div>
 
@@ -502,162 +564,238 @@
             websiteData.company.address = document.getElementById('companyAddress').value;
             websiteData.company.description = document.getElementById('companyDescription').value;
 
-            // ローカルストレージに保存（実際のプロジェクトではサーバーに送信）
+            // ローカルストレージに保存
             localStorage.setItem('rispondereWebsiteData', JSON.stringify(websiteData));
             
-            console.log('保存されたデータ:', websiteData);
-            
             updateStatus(true);
-            showMessage('変更が保存されました！ホームページに反映されます。', 'success');
+            showMessage('変更が保存されました！', 'success');
         });
 
-        // リセット処理
-        document.getElementById('resetBtn').addEventListener('click', function() {
-            if (confirm('すべての変更をリセットしますか？')) {
-                // フォームをリセット
-                document.getElementById('heroTitle').value = 'Creative Design Solutions';
-                document.getElementById('heroSubtitle').value = 'WEBデザイン・広告制作のプロフェッショナル';
-                document.getElementById('companyName').value = '有限会社　Rispondere';
-                document.getElementById('companyPhone').value = '052-253-5385';
-                document.getElementById('companyAddress').value = '〒460-0007 愛知県名古屋市中区新栄２丁目８番２２号';
-                document.getElementById('companyDescription').value = '各種ソフトを使って、主にＷＥＢ媒体の広告・撮影・デザインをしております。ＷＥＢバナーや動画編集、写真レタッチなどスキルや実務経験を考慮し、総合的に業務に携われます。';
-                
-                // 画像プレビューをクリア
-                ['heroImagePreview', 'portfolio1Preview', 'portfolio2Preview', 'portfolio3Preview', 'portfolio4Preview'].forEach(id => {
-                    document.getElementById(id).innerHTML = '';
-                });
-                
-                // データをリセット
-                websiteData = {
-                    hero: {
-                        title: 'Creative Design Solutions',
-                        subtitle: 'WEBデザイン・広告制作のプロフェッショナル',
-                        backgroundImage: null
-                    },
-                    company: {
-                        name: '有限会社　Rispondere',
-                        phone: '052-253-5385',
-                        address: '〒460-0007 愛知県名古屋市中区新栄２丁目８番２２号',
-                        description: '各種ソフトを使って、主にＷＥＢ媒体の広告・撮影・デザインをしております。ＷＥＢバナーや動画編集、写真レタッチなどスキルや実務経験を考慮し、総合的に業務に携われます。'
-                    },
-                    portfolio: {
-                        image1: null,
-                        image2: null,
-                        image3: null,
-                        image4: null
-                    }
-                };
-                
-                // ローカルストレージからも削除
-                localStorage.removeItem('rispondereWebsiteData');
-                
-                updateStatus(true);
-                showMessage('データがリセットされました', 'info');
-            }
-        });
+        // HTMLファイル生成
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            // 最新データを取得
+            websiteData.hero.title = document.getElementById('heroTitle').value;
+            websiteData.hero.subtitle = document.getElementById('heroSubtitle').value;
+            websiteData.company.name = document.getElementById('companyName').value;
+            websiteData.company.phone = document.getElementById('companyPhone').value;
+            websiteData.company.address = document.getElementById('companyAddress').value;
+            websiteData.company.description = document.getElementById('companyDescription').value;
 
-        // プレビュー生成（簡易版）
-        function generatePreview() {
-            const iframe = document.getElementById('previewFrame');
-            const previewHTML = `
-                <div style="font-family: Arial, sans-serif;">
-                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4rem 2rem; text-align: center; ${websiteData.hero.backgroundImage ? 'background-image: url(' + websiteData.hero.backgroundImage + '); background-size: cover; background-blend-mode: overlay;' : ''}">
-                        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">${websiteData.hero.title}</h1>
-                        <p style="font-size: 1.2rem;">${websiteData.hero.subtitle}</p>
-                    </div>
-                    <div style="padding: 2rem; background: white;">
-                        <h2 style="color: #667eea; margin-bottom: 1rem;">会社情報</h2>
-                        <p><strong>会社名:</strong> ${websiteData.company.name}</p>
-                        <p><strong>電話:</strong> ${websiteData.company.phone}</p>
-                        <p><strong>住所:</strong> ${websiteData.company.address}</p>
-                        <p><strong>事業内容:</strong> ${websiteData.company.description}</p>
-                    </div>
-                </div>
-            `;
+            // HTMLテンプレートを生成
+            const htmlTemplate = generateHTMLTemplate(websiteData);
             
-            iframe.srcdoc = previewHTML;
+            // 出力エリアに表示
+            document.getElementById('htmlOutput').textContent = htmlTemplate;
+            document.getElementById('exportSection').style.display = 'block';
+            
+            // スクロールして表示
+            document.getElementById('exportSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // HTMLテンプレート生成関数
+        function generateHTMLTemplate(data) {
+            const heroStyle = data.hero.backgroundImage ? 
+                `background-image: linear-gradient(rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.7)), url('${data.hero.backgroundImage}'); background-size: cover; background-position: center;` : 
+                '';
+
+            return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>有限会社Rispondere - WEBデザイン・広告制作</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        // メッセージ表示
-        function showMessage(text, type = 'info') {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.textContent = text;
-            alertDiv.style.position = 'fixed';
-            alertDiv.style.top = '20px';
-            alertDiv.style.right = '20px';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.style.minWidth = '300px';
-            alertDiv.style.opacity = '0';
-            alertDiv.style.transform = 'translateX(100%)';
-            alertDiv.style.transition = 'all 0.3s ease';
-            
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.style.opacity = '1';
-                alertDiv.style.transform = 'translateX(0)';
-            }, 100);
-            
-            setTimeout(() => {
-                alertDiv.style.opacity = '0';
-                alertDiv.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    document.body.removeChild(alertDiv);
-                }, 300);
-            }, 3000);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
         }
 
-        // ページ離脱時の警告
-        window.addEventListener('beforeunload', function(e) {
-            if (hasUnsavedChanges) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
+        /* ヘッダー */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
 
-        // 初期状態を保存済みに設定
-        updateStatus(true);
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
 
-        // ページ読み込み時に保存されたデータを読み込み
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedData = localStorage.getItem('rispondereWebsiteData');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    
-                    // フォームに保存されたデータを反映
-                    if (data.hero) {
-                        if (data.hero.title) document.getElementById('heroTitle').value = data.hero.title;
-                        if (data.hero.subtitle) document.getElementById('heroSubtitle').value = data.hero.subtitle;
-                    }
-                    
-                    if (data.company) {
-                        if (data.company.name) document.getElementById('companyName').value = data.company.name;
-                        if (data.company.phone) document.getElementById('companyPhone').value = data.company.phone;
-                        if (data.company.address) document.getElementById('companyAddress').value = data.company.address;
-                        if (data.company.description) document.getElementById('companyDescription').value = data.company.description;
-                    }
-                    
-                    // 画像プレビューも復元
-                    if (data.hero && data.hero.backgroundImage) {
-                        document.getElementById('heroImagePreview').innerHTML = `<img src="${data.hero.backgroundImage}" alt="プレビュー">`;
-                    }
-                    
-                    if (data.portfolio) {
-                        for (let i = 1; i <= 4; i++) {
-                            if (data.portfolio[`image${i}`]) {
-                                document.getElementById(`portfolio${i}Preview`).innerHTML = `<img src="${data.portfolio[`image${i}`]}" alt="プレビュー">`;
-                            }
-                        }
-                    }
-                    
-                    websiteData = data;
-                } catch (e) {
-                    console.error('保存データの読み込みに失敗しました:', e);
-                }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ヒーローセクション */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            ${heroStyle}
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-        });
-    </script>
-</body>
-</html>
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* セクション共通スタイル */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* サービスセクション */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-
